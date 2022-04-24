@@ -6,11 +6,13 @@ class Node:
     childs = list()
     value = None
     depth = 0
+    horizion=0
     grid = None
 
-    def __init__(self, parent, depth):
+    def __init__(self, parent, depth,horizion):
         self.parent = parent
         self.depth = depth
+        self.horizion=horizion
         if self.parent != None:
             self.grid = self.parent.grid
         else:
