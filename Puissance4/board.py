@@ -1,3 +1,4 @@
+from numpy import place
 from player import *
 
 
@@ -72,9 +73,13 @@ class Board:
     def placePiece(self, posX: int, Player):
         posY = int(0)
         for y in range(len(self.grid)):
-            if self.grid[y][posX] == 'O':
-                posY = y
-                break
+            try:
+                if self.grid[y][posX] == 'O':
+                    posY = y
+                    break
+            except:
+                print('Case non valide')
+                Player.play(self)
 
         if self.grid[posY][posX] == 'O':
             self.grid[posY][posX] = Player.piece.color
