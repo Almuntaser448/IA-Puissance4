@@ -3,6 +3,6 @@ from miniMax import *
 
 
 IA = MiniMax()
-IA.showTree()
+# IA.showTree()
 
 Game().start()
