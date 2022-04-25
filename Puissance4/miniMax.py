@@ -1,3 +1,4 @@
+from numpy import True_
 from board import Board
 from node import *
 from player import *
@@ -40,12 +41,41 @@ class MiniMax:
                         noeudAct = Node(NodePere, etage, horizion)
                         NodePere.addChild(noeudAct)
                         listtemp.append(noeudAct)
-                        self.updateGrid(noeudAct, horizion, etage)
+                        if not noeudAct.fin:
+                            self.updateGrid(noeudAct, horizion, etage)
                     self.arbre[etage+1].append(listtemp)
 
     def showTree(self):
         print(self.root.board.showGrid())
         print(self.root.value)
+
+
+    def lancementMinMax(self):#attention certain en bas n'ont pas de valeur car le gris  a fini avant
+       for etage in range (6):
+         for ListsNodesEtagesActuels in self.arbre[5-etage]:
+             for NodePere in ListsNodesEtagesActuels:
+                  if NodePere.fini:
+                      continue
+                  min=3
+                  max=-3
+                  
+                  for node in NodePere.getChilds:
+                      ilyaNodes=False
+                      if not node.fini:
+                          ilyaNodes=True
+                      else:
+                          continue
+                      if(etage % 2 == 0):#min because it's 1 3 5
+                          if(node.value<min):
+                              min=node.value
+                      else:
+                          if(node.value>max):
+                              max=node.value
+                  if ilyaNodes:
+                      if(etage % 2 == 0):
+                        NodePere.value=min
+                      else:
+                          NodePere.value=max
 
     def updateGrid(self, noeudAct, horizion, etage):
         players = [self.playerIA, self.playerOther]
@@ -54,9 +84,14 @@ class MiniMax:
             actualPlayer = 0
         else:
             actualPlayer = 1
-        print('----------------')
         noeudAct.board.placePiece(horizion, players[actualPlayer])
-        noeudAct.parent.board.showGrid()
-        noeudAct.board.showGrid()
-        print(id(noeudAct.parent.board))
-        print(id(noeudAct.board))
+        if noeudAct.board.isFinished():
+            if noeudAct.board.winner != None:
+                if self.playerIA.piece.color == self.board.winner:
+                    noeudAct.value=1
+                else:
+                    noeudAct.value=-1
+            else:
+                noeudAct.value=0
+            for noeud in noeudAct.getChilds:
+                noeud.fin=True
