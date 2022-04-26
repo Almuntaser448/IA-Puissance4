@@ -88,6 +88,9 @@ class Board:
                 self.showGrid()
                 print('Case non valide! Veuillez choisir une autre case')
                 return Player.play(self)
+            return True 
+        else:
+            return False
 
     def showGrid(self):
         print('')

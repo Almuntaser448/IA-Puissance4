@@ -21,18 +21,21 @@ class MiniMax:
         # self.lancementMinMax()
 
     def createTree(self):
-        for i in range(8):  # intialsation de dicctionaire 7 car il y a le root qui n'est pas des situations de case mais c'est le max qui regroupe tout les enfants donc il n'est pas la physiqument
+        for i in range(43):  # intialsation de dicctionaire 7 car il y a le root qui n'est pas des situations de case mais c'est le max qui regroupe tout les enfants donc il n'est pas la physiqument
             self.arbre[i] = []
         self.arbre[0].append([self.root])
-
-        for depth in range(7):
+        nodeValide=False
+        for depth in range(42):
+            print(depth)
             for nodesInDepth in self.arbre[depth]:
                 for nodeParent in nodesInDepth:
                     tempList = []
                     for x in range(7):
-                        currentNode = Node(nodeParent, depth, x)
-                        tempList.append(currentNode)
-                        self.updateGrid(currentNode, depth, x)
+                        currentNode = Node(nodeParent, depth, x) #separe la jeu de pere
+                       
+                        nodeValide=self.updateGrid(currentNode, depth, x)
+                        if nodeValide :
+                            tempList.append(currentNode)
                     self.arbre[depth+1].append(tempList)
 
     def lancementMinMax(self):
@@ -63,19 +66,18 @@ class MiniMax:
                             NodePere.value = max
 
     def updateGrid(self, currentNode, depth, x):
+        nValide=False
         players = [self.playerIA, self.playerOther]
         actualPlayer = int()
         if depth % 2 == 0:
             actualPlayer = 0
         else:
             actualPlayer = 1
-        currentNode.board.placePiece(x, players[actualPlayer])
+        nValide=currentNode.board.placePiece(x, players[actualPlayer])
         if currentNode.board.isFinished():
-            print(players[actualPlayer].piece.color)
             self.setNodeValue(currentNode)
-
+        return nValide
     def setNodeValue(self, currentNode):
-        currentNode.board.showGrid()
         if currentNode.board.winner != None:
             if self.playerIA.piece.color == currentNode.board.winner:
                 currentNode.value = 1
