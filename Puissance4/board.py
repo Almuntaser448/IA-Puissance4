@@ -69,9 +69,10 @@ class Board:
                     self.winner = lastPiece
                     return True
                 pos = pos[0] + 1, pos[1] - 1
+        return False
 
     def placePiece(self, posX: int, Player):
-        posY = int(0)
+        posY = 5
         for y in range(len(self.grid)):
             try:
                 if self.grid[y][posX] == 'O':
@@ -80,12 +81,13 @@ class Board:
             except:
                 print('Case non valide')
                 Player.play(self)
-
-        if self.grid[posY][posX] == 'O':
-            self.grid[posY][posX] = Player.piece.color
-        else:
-            print('Case non valide! Veuillez choisir une autre case')
-            return Player.play(self)
+        if posY < 5:
+            if self.grid[posY][posX] == 'O':
+                self.grid[posY][posX] = Player.piece.color
+            else:
+                self.showGrid()
+                print('Case non valide! Veuillez choisir une autre case')
+                return Player.play(self)
 
     def showGrid(self):
         print('')

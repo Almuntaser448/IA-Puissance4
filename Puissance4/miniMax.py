@@ -18,80 +18,69 @@ class MiniMax:
         self.playerOther = Player(Piece('Y'), 'Other')
         self.arbre = {}
         self.createTree()
-        print(self.root.board.showGrid())
+        # self.lancementMinMax()
 
     def createTree(self):
-
-        if self.root.board.isFinished():
-            if self.root.board.winner != None:
-                if self.root.board.winner == 'R':
-                    self.root.value = 1
-                elif self.root.board.winner == 'Y':
-                    self.root.value = -1
-                else:
-                    self.root.value = 0
-        for et in range(7):  # intialsation de dicctionaire 7 car il y a le root qui n'est pas des situations de case mais c'est le max qui regroupe tout les enfants donc il n'est pas la physiqument
-            self.arbre[et] = []
+        for i in range(8):  # intialsation de dicctionaire 7 car il y a le root qui n'est pas des situations de case mais c'est le max qui regroupe tout les enfants donc il n'est pas la physiqument
+            self.arbre[i] = []
         self.arbre[0].append([self.root])
+
+        for depth in range(7):
+            for nodesInDepth in self.arbre[depth]:
+                for nodeParent in nodesInDepth:
+                    tempList = []
+                    for x in range(7):
+                        currentNode = Node(nodeParent, depth, x)
+                        tempList.append(currentNode)
+                        self.updateGrid(currentNode, depth, x)
+                    self.arbre[depth+1].append(tempList)
+
+    def lancementMinMax(self):
         for etage in range(6):
-            for ListsNodesEtagesActuels in self.arbre[etage]:
+            for ListsNodesEtagesActuels in self.arbre[5-etage]:
                 for NodePere in ListsNodesEtagesActuels:
-                    listtemp = []
-                    for horizion in range(7):
-                        noeudAct = Node(NodePere, etage, horizion)
-                        NodePere.addChild(noeudAct)
-                        listtemp.append(noeudAct)
-                        if not noeudAct.fin:
-                            self.updateGrid(noeudAct, horizion, etage)
-                    self.arbre[etage+1].append(listtemp)
+                    if NodePere.fin:
+                        continue
+                    min = 3
+                    max = -3
 
-    def showTree(self):
-        print(self.root.board.showGrid())
-        print(self.root.value)
+                    for node in NodePere.childs:
+                        ilyaNodes = False
+                        if not node.fin:
+                            ilyaNodes = True
+                        else:
+                            continue
+                        if(etage % 2 == 0):  # min because it's 1 3 5
+                            if(node.value < min):
+                                min = node.value
+                        else:
+                            if(node.value > max):
+                                max = node.value
+                    if ilyaNodes:
+                        if(etage % 2 == 0):
+                            NodePere.value = min
+                        else:
+                            NodePere.value = max
 
-
-    def lancementMinMax(self):#attention certain en bas n'ont pas de valeur car le gris  a fini avant
-       for etage in range (6):
-         for ListsNodesEtagesActuels in self.arbre[5-etage]:
-             for NodePere in ListsNodesEtagesActuels:
-                  if NodePere.fini:
-                      continue
-                  min=3
-                  max=-3
-                  
-                  for node in NodePere.getChilds:
-                      ilyaNodes=False
-                      if not node.fini:
-                          ilyaNodes=True
-                      else:
-                          continue
-                      if(etage % 2 == 0):#min because it's 1 3 5
-                          if(node.value<min):
-                              min=node.value
-                      else:
-                          if(node.value>max):
-                              max=node.value
-                  if ilyaNodes:
-                      if(etage % 2 == 0):
-                        NodePere.value=min
-                      else:
-                          NodePere.value=max
-
-    def updateGrid(self, noeudAct, horizion, etage):
+    def updateGrid(self, currentNode, depth, x):
         players = [self.playerIA, self.playerOther]
         actualPlayer = int()
-        if etage % 2 == 0:
+        if depth % 2 == 0:
             actualPlayer = 0
         else:
             actualPlayer = 1
-        noeudAct.board.placePiece(horizion, players[actualPlayer])
-        if noeudAct.board.isFinished():
-            if noeudAct.board.winner != None:
-                if self.playerIA.piece.color == self.board.winner:
-                    noeudAct.value=1
-                else:
-                    noeudAct.value=-1
+        currentNode.board.placePiece(x, players[actualPlayer])
+        if currentNode.board.isFinished():
+            print(players[actualPlayer].piece.color)
+            self.setNodeValue(currentNode)
+
+    def setNodeValue(self, currentNode):
+        currentNode.board.showGrid()
+        if currentNode.board.winner != None:
+            if self.playerIA.piece.color == currentNode.board.winner:
+                currentNode.value = 1
             else:
-                noeudAct.value=0
-            for noeud in noeudAct.getChilds:
-                noeud.fin=True
+                currentNode.value = -1
+        else:
+            currentNode.value = 0
+        currentNode.fin = True

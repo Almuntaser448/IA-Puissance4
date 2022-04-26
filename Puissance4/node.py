@@ -10,18 +10,20 @@ class Node:
     depth = 0
     horizion = 0
     board = None
-    fin=None
+    fin = None
 
     def __init__(self, parent, depth, horizion):
-        self.fin=False
+        self.fin = False
         self.parent = parent
         self.depth = depth
         self.horizion = horizion
         self.board = Board()
         if self.parent != None:
+            self.parent.addChild(self)
             self.board = deepcopy(self.parent.board)
 
     def addChild(self, node):
         self.childs.append(node)
+
     def getChilds(self):
         return self.childs
