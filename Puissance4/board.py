@@ -21,7 +21,7 @@ class Board:
                     cnt = 0
                 if lastPiece != 'O':
                     cnt += 1
-                if cnt >= 4:
+                if cnt >= 4:#jeton l'un apres l'autre
                     self.winner = lastPiece
                     return True
 
@@ -72,16 +72,21 @@ class Board:
         return False
 
     def placePiece(self, posX: int, Player):
-        posY = 5
+        posY = 6
+        fin=True
         for y in range(len(self.grid)):
             try:
                 if self.grid[y][posX] == 'O':
+                    fin=False
                     posY = y
                     break
             except:
                 print('Case non valide')
                 Player.play(self)
-        if posY < 5:
+        if (fin==True):
+                print('Case non valide')
+                Player.play(self)
+        if posY < 6:
             if self.grid[posY][posX] == 'O':
                 self.grid[posY][posX] = Player.piece.color
             else:

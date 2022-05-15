@@ -40,11 +40,29 @@ class MiniMax:
                     self.arbre[depth+1].append(tempList)
                     #if(depth==3) and (x==6):
                         #print(es)
+
+#methode d'arret? pour diffrencier deux jetons libre a deux jetons que le adversaire a arrete 
+
+
+#pas arreter = les autres sont vide
+
+#il faut voir que si il y a par example 3 pour moi et 3 pour lui le programe peut avoir deux score diffrentes
+#les deniers c'est toujours min car ca sera max min max min, donc c'est  la min entre les derniers valeur, en suit la max, ensuit la min et enfin la max
+
+#trois trois pas le meme score que un seul trois?
+#plus important deux deux ou un seul trois?
+#bien sur si je trouve un seul 4 j'arrete direct
+#savoir si le node apartien a la noudes joues?
+#example : if list of the three contains le node qui vient d'etre jouer : score =?
+#else score=0
+#if score = 0 go faire la deuxieme verfication
+
+
 #le chemain va etre connu dans un list ou stack par example,
 #a chaque etape je vais ajouter deux jetons dans mon stack
 #avant que je l'ajoute je dois verifer bien que l'etat actuel de jeu est presnent dans le stack (par example le joeur peut choisir un cas pire pour lui donc le stack n'est plus valide)
 #si l'etat actuel de jeu n'est pas la je dois vider mon stack et le remplire a nouveux
-#si dans le stack j'arrive a un cas ou j'ai gange j'arrete la recherche de min max
+#si dans le deque j'arrive a un cas ou j'ai gange j'arrete la recherche de min max
 #le stack doit etre FIFO soit First In First Out, car je vais ajourer le board par ordre et je voulais qu'il sort par ordre
 #je dois ajouter une methode de recouperer les noeuds dans le board comme ca je peux recree le board dans le stock dans mon jeu actuel
 
