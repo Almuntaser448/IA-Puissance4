@@ -10,10 +10,10 @@ class Node:
     depth = 0
     horizion = 0
     board = None
-    fin = None
+    nodeDeRouteMinMax = None
+    fin=False
 
     def __init__(self, parent, depth, horizion):
-        self.fin = False
         self.parent = parent
         self.depth = depth
         self.horizion = horizion

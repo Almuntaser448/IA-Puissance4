@@ -26,3 +26,6 @@ class Player:
         print('\nAu tour de ', self.name)
         posX = int(input('Enter postion: '))
         board.placePiece(posX, self)
+
+    def playIA(self,board ,posX):
+        board.placePiece(posX, self)

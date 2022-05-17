@@ -21,10 +21,13 @@ class MiniMax:
         # self.lancementMinMax()
 
     def createTree(self):
-        #es=0
+        self.root.parent = None
+        self.root.value = None
+        self.root.nodeDeRouteMinMax = None
+        self.root.fin=False
         for i in range(5):  # intialsation de dicctionaire 7 car il y a le root qui n'est pas des situations de case mais c'est le max qui regroupe tout les enfants donc il n'est pas la physiqument
             self.arbre[i] = []
-        self.arbre[0].append([self.root])
+        self.arbre[0].append(self.root)
         nodeValide=False
         for depth in range(4):
             for nodesInDepth in self.arbre[depth]:
@@ -32,14 +35,13 @@ class MiniMax:
                     tempList = []
                     for x in range(7):
                         currentNode = Node(nodeParent, depth, x) #separe la jeu de pere
-                       
                         nodeValide=self.updateGrid(currentNode, depth, x)
                         if nodeValide :
-                            #es=es+1
+                            if(depth==3):
+                                self.setNodeValue(currentNode)
                             tempList.append(currentNode)
                     self.arbre[depth+1].append(tempList)
-                    #if(depth==3) and (x==6):
-                        #print(es)
+
 
 #methode d'arret? pour diffrencier deux jetons libre a deux jetons que le adversaire a arrete 
 
@@ -47,53 +49,61 @@ class MiniMax:
 #pas arreter = les autres sont vide
 
 #il faut voir que si il y a par example 3 pour moi et 3 pour lui le programe peut avoir deux score diffrentes
-#les deniers c'est toujours min car ca sera max min max min, donc c'est  la min entre les derniers valeur, en suit la max, ensuit la min et enfin la max
 
-#trois trois pas le meme score que un seul trois?
-#plus important deux deux ou un seul trois?
-#bien sur si je trouve un seul 4 j'arrete direct
+#trois trois pas le meme score que un seul trois
+#plus important deux deux que un seul trois
 #savoir si le node apartien a la noudes joues?
 #example : if list of the three contains le node qui vient d'etre jouer : score =?
-#else score=0
-#if score = 0 go faire la deuxieme verfication
 
 
-#le chemain va etre connu dans un list ou stack par example,
-#a chaque etape je vais ajouter deux jetons dans mon stack
-#avant que je l'ajoute je dois verifer bien que l'etat actuel de jeu est presnent dans le stack (par example le joeur peut choisir un cas pire pour lui donc le stack n'est plus valide)
-#si l'etat actuel de jeu n'est pas la je dois vider mon stack et le remplire a nouveux
-#si dans le deque j'arrive a un cas ou j'ai gange j'arrete la recherche de min max
-#le stack doit etre FIFO soit First In First Out, car je vais ajourer le board par ordre et je voulais qu'il sort par ordre
-#je dois ajouter une methode de recouperer les noeuds dans le board comme ca je peux recree le board dans le stock dans mon jeu actuel
 
 #un autre moyenne de faire la jeu difficille est de fair un programe qui choisit entre les diffrents strategies des  joeur et adopter celui qui le convient le miileux
 
-    def lancementMinMax(self):
-        for etage in range(6):
-            for ListsNodesEtagesActuels in self.arbre[5-etage]:
+    def lancementMinMax(self,etapeAfaire):
+        finDePredication=False
+        for etage in range(4):
+            for ListsNodesEtagesActuels in self.arbre[3-etage]:
                 for NodePere in ListsNodesEtagesActuels:
-                    if NodePere.fin:
-                        continue
-                    min = 3
-                    max = -3
+
+                    min =0
+                    max =0
 
                     for node in NodePere.childs:
-                        ilyaNodes = False
-                        if not node.fin:
-                            ilyaNodes = True
-                        else:
-                            continue
-                        if(etage % 2 == 0):  # min because it's 1 3 5
+                        #niveua 4 car c'est 0 1 2 3 4
+                        if(etage % 2 == 1):  # min because it's 1 3
                             if(node.value < min):
                                 min = node.value
+                            if(node.fin==True):
+                                finDePredication=True
                         else:
                             if(node.value > max):
                                 max = node.value
-                    if ilyaNodes:
-                        if(etage % 2 == 0):
+                            if(node.fin==True):
+                                finDePredication=True
+                        for node in NodePere.childs:
+                             if(etage % 2 == 1):  # min because it's 1 3
+                                    if(node.value == min):
+                                        NodePere.nodeDeRouteMinMax=node
+                                        break
+                             else:
+                                if(node.value == max):
+                                     NodePere.nodeDeRouteMinMax=node
+                                     break
+                    if(etage % 2 == 1):
                             NodePere.value = min
-                        else:
-                            NodePere.value = max
+                    else:
+                          NodePere.value = max
+        self.arbre.clear()
+        etapeAfaire.append(self.root.nodeDeRouteMinMax)
+        etapeAfaire.append(self.root.nodeDeRouteMinMax.nodeDeRouteMinMax)
+        etapeAfaire.append(self.root.nodeDeRouteMinMax.nodeDeRouteMinMax.nodeDeRouteMinMax)
+        dernierNodeVu=self.root.nodeDeRouteMinMax.nodeDeRouteMinMax.nodeDeRouteMinMax.nodeDeRouteMinMax
+        etapeAfaire.append(dernierNodeVu)
+        self.root=dernierNodeVu
+        return finDePredication
+
+
+
 
     def updateGrid(self, currentNode, depth, x):
         nValide=False
@@ -104,9 +114,6 @@ class MiniMax:
         else:
             actualPlayer = 1
         nValide=currentNode.board.placePiece(x, players[actualPlayer])
-       # currentNode.board.showGrid()
-        if currentNode.board.isFinished():
-            self.setNodeValue(currentNode)
         return nValide
 
     #score difficult
@@ -121,9 +128,20 @@ class MiniMax:
     def setNodeValue(self, currentNode):
         if currentNode.board.winner != None:
             if self.playerIA.piece.color == currentNode.board.winner:
-                currentNode.value = 1
+                currentNode.value = 999999999
+                currentNode.fin=True
             else:
-                currentNode.value = -1
+                currentNode.value = -99999999
         else:
-            currentNode.value = 0
-        currentNode.fin = True
+            if (methode de 3):
+                if self.playerIA:
+                    currentNode.value =100
+                else:
+                    currentNode.value =-1000
+            elif (methode de 2):
+                if self.playerIA:
+                    currentNode.value =60
+                else:
+                    currentNode.value =-70
+           else:
+               currentNode.value =0
