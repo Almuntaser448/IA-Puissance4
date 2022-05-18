@@ -17,10 +17,15 @@ class MiniMax:
         self.playerIA = Player(Piece('R'), 'IA')
         self.playerOther = Player(Piece('Y'), 'Other')
         self.arbre = {}
-        self.createTree()
         # self.lancementMinMax()
-
+    def appel(self):
+        self.root = Node(None, 0, 100)
+        self.nodes = {'0': [self.root]}
+        self.playerIA = Player(Piece('R'), 'IA')
+        self.playerOther = Player(Piece('Y'), 'Other')
+        self.arbre = {}
     def createTree(self):
+        fpred=False
         self.root.parent = None
         self.root.beta = 0
         self.root.alpha = 0
@@ -46,7 +51,10 @@ class MiniMax:
                                 self.setNodeValue(currentNode)
                             tempList.append(currentNode)
                     self.arbre[depth+1].append(tempList)
+                    tempList.clear
 
+        fpred=self.lancementMinMax()
+        return fpred
 
 # methode d'arret? pour diffrencier deux jetons libre a deux jetons que le adversaire a arrete
 
@@ -64,25 +72,28 @@ class MiniMax:
 # un autre moyenne de faire la jeu difficille est de fair un programe qui choisit entre les diffrents strategies des  joeur et adopter celui qui le convient le miileux
 
 
-    def lancementMinMax(self, etapeAfaire):
-        finDePredication = False
-        for etage in range(4):
-            for ListsNodesEtagesActuels in self.arbre[3-etage]:
-                for NodePere in ListsNodesEtagesActuels:
+    def lancementMinMax(self ):
 
+        for etage in range(4):
+
+            for ListsNodesEtagesActuels in self.arbre[3-etage]:
+
+                if type(ListsNodesEtagesActuels) == Node:
+                    ListsNodesEtagesActuels = [ListsNodesEtagesActuels]
+                for NodePere in ListsNodesEtagesActuels:
                     min = 0
                     max = 0
 
                     for node in NodePere.childs:
+                       
+
                         # niveua 4 car c'est 0 1 2 3 4
-                        if(etage % 2 == 1):  # min because it's 1 3
-                            if(node.value < min):
+                        if(etage % 2 == 0):  # min because it's 1 3
+                           if(node.value < min):
                                 min = node.value
                         else:
                             if(node.value > max):
                                 max = node.value
-                            if(node.fin == True):
-                                finDePredication = True
                         for node in NodePere.childs:
                             if(etage % 2 == 1):  # min because it's 1 3
                                 if(node.value == min):
@@ -96,15 +107,10 @@ class MiniMax:
                         NodePere.value = min
                     else:
                         NodePere.value = max
-        self.arbre.clear()
-        etapeAfaire.append(self.root.nodeDeRouteMinMax)
-        etapeAfaire.append(self.root.nodeDeRouteMinMax.nodeDeRouteMinMax)
-        etapeAfaire.append(
-            self.root.nodeDeRouteMinMax.nodeDeRouteMinMax.nodeDeRouteMinMax)
-        dernierNodeVu = self.root.nodeDeRouteMinMax.nodeDeRouteMinMax.nodeDeRouteMinMax.nodeDeRouteMinMax
-        etapeAfaire.append(dernierNodeVu)
-        self.root = dernierNodeVu
-        return finDePredication
+        
+        print(self.root.value)
+        return self.root.nodeDeRouteMinMax.horizion
+            
 
     def alphaBetaMinMax(self, etapeAfaire):
         finDePredication = False
@@ -192,7 +198,6 @@ class MiniMax:
             actualPlayer = 1
         nValide = currentNode.board.placePiece(x, players[actualPlayer])
 
-        currentNode.board.showGrid()
         return nValide
 
     # score difficult
@@ -209,9 +214,6 @@ class MiniMax:
     def setNodeValue(self, currentNode):
         # mapJetons: {'Y': {3: int(), 2:int()}, 'R': {3: int(), 2:int()}}
         mapJetons = currentNode.board.isFinished()[1]
-        print("##############")
-        print(mapJetons)
-        print("##############")
 
         if currentNode.board.winner != None:
             if self.playerIA.piece.color == currentNode.board.winner:
@@ -220,5 +222,13 @@ class MiniMax:
             else:
                 currentNode.value = -99999999
         else:
-            currentNode.value = mapJetons['R'][3]*100+mapJetons['R'][2] * \
-                60+mapJetons['Y'][3]*-1000+mapJetons['Y'][2]*-70
+            if(mapJetons['Y'][3]>0):
+                currentNode.value=-1000
+            elif( mapJetons['R'][3]>0):
+                currentNode.value =(100)
+            elif(mapJetons['Y'][2]>0):
+                currentNode=-70
+            elif(mapJetons['R'][2]>0):
+                currentNode=60
+            else:
+                currentNode=0

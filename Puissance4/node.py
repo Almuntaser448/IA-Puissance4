@@ -5,7 +5,7 @@ from copy import *
 
 class Node:
     parent = None
-    childs = list()
+    childs = []
     value = None
     depth = 0
     horizion = 0
@@ -15,12 +15,14 @@ class Node:
     alpha=None
     beta=None
     def __init__(self, parent, depth, horizion):
+        self.childs=[]
         self.parent = parent
         self.depth = depth
         self.horizion = horizion
         self.board = Board()
         if self.parent != None:
-            self.parent.addChild(self)
+            self.parent.childs.append(self)
+           # self.parent.addChild(self)
             self.board = deepcopy(self.parent.board)
 
     def addChild(self, node):

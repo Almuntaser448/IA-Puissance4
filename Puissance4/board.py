@@ -30,7 +30,7 @@ class Board:
                     cnt += 1
                 if cnt >= 4:  # jeton l'un apres l'autre
                     self.winner = lastPiece
-                    return True
+                    return (True, mapJetons)
 
         # Horizontal
         lastPiece = None
@@ -50,7 +50,7 @@ class Board:
                     cnt += 1
                 if cnt >= 4:
                     self.winner = lastPiece
-                    return True
+                    return (True, mapJetons)
         # Main diagonal
         lastPiece = None
         cnt = 0
@@ -71,7 +71,7 @@ class Board:
                     cnt += 1
                 if cnt >= 4:
                     self.winner = lastPiece
-                    return True
+                    return (True, mapJetons)
                 pos = pos[0] + 1, pos[1] + 1
 
         # Second diagonal
@@ -94,7 +94,7 @@ class Board:
                     cnt += 1
                 if cnt >= 4:
                     self.winner = lastPiece
-                    return True
+                    return (True, mapJetons)
                 pos = pos[0] + 1, pos[1] - 1
         return (False, mapJetons)
 

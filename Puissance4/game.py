@@ -39,28 +39,18 @@ class Game:
 
 
 
-    def startIA(self,IA):
-        foisUtilisateurSansMillieurPos=0
+    def startIA(self):
         players = [self.playerIA, self.player2]
         cnt = 0
         self.showPlayers(players)
-        etapesMinMaxASuivre = collections.deque()
-        predicerToutLaJeu=False
+
         # Game in progress
         while not self.board.isFinished()[0]:
-            if  (bool(etapesMinMaxASuivre)):
-                if not(etapesMinMaxASuivre.popleft().board==self.board):
-                    etapesMinMaxASuivre.clear()
-                    predicerToutLaJeu=False
-                    foisUtilisateurSansMillieurPos+=1
-                    IA.root.board=self.board
-                    #l'IA peut aller dans un case Invalide????
-            if( predicerToutLaJeu==False) :
-                IA.createTree()
-                predicerToutLaJeu=IA.lancementMinMax(etapesMinMaxASuivre)
+            IA = MiniMax()
+            caseAjouer=IA.createTree()
             cnt += 1
             if(cnt % 2 == 1):
-                self.playerIA.playIA(self.board,etapesMinMaxASuivre.popleft().horizion)
+                self.playerIA.playIA(self.board,caseAjouer)
             else:
                  self.board.showGrid()
                  self.player2.play(self.board)
@@ -72,7 +62,7 @@ class Game:
         restart = input('Restart? yes:Y no:Other ')
         if restart.lower() == 'y':
             self.board.reset()
-            self.start()
+            self.startIA(IA)
     def showPlayers(self, players):
         print('')
         for i in players:
