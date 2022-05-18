@@ -76,34 +76,38 @@ class MiniMax:
 # un autre moyenne de faire la jeu difficille est de fair un programe qui choisit entre les diffrents strategies des  joeur et adopter celui qui le convient le miileux
 
     def lancementMinMax(self):
-        for etage in range(4):
-            for ListsNodesEtagesActuels in self.arbre[3-etage]:
+        for etage in range(4 - 1, 0 - 1, -1):
+            for ListsNodesEtagesActuels in self.arbre[etage]:
                 if type(ListsNodesEtagesActuels) == Node:
                     ListsNodesEtagesActuels = [ListsNodesEtagesActuels]
                 for NodePere in ListsNodesEtagesActuels:
                     min = 0
                     max = 0
+
+                    for node in NodePere.childs:
+                        if(etage % 2 == 0):  # max
+                            if(node.value > max):
+                                print(node.value)
+                                max = node.value
+                        else:  # min
+                            if(node.value < min):
+                                print(node.value)
+                                min = node.value
+
                     for node in NodePere.childs:
                         if(etage % 2 == 0):  # min because it's 1 3
-                            if(node.value < min):
-                                min = node.value
+                            if(node.value == max):
+                                NodePere.nodeDeRouteMinMax = node
+                                break
                         else:
-                            if(node.value > max):
-                                max = node.value
-                        for node in NodePere.childs:
-                            if(etage % 2 != 0):  # min because it's 1 3
-                                if(node.value == min):
-                                    NodePere.nodeDeRouteMinMax = node
-                                    break
-                            else:
-                                if(node.value == max):
-                                    NodePere.nodeDeRouteMinMax = node
-                                    break
-                    if(etage % 2 != 0):
-                        NodePere.value = min
-                    else:
+                            if(node.value == min):
+                                NodePere.nodeDeRouteMinMax = node
+                                break
+                    if(etage % 2 == 0):
                         NodePere.value = max
-        return self.root.nodeDeRouteMinMax.horizion
+                    else:
+                        NodePere.value = min
+        return self.root.nodeDeRouteMinMax.horizon
 
     def alphaBetaMinMax(self, etapeAfaire):
         finDePredication = False

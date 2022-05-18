@@ -8,18 +8,18 @@ class Node:
     childs = []
     value = None
     depth = 0
-    horizion = 0
+    horizon = 0
     board = None
     nodeDeRouteMinMax = None
     fin = False
     alpha = None
     beta = None
 
-    def __init__(self, parent, depth, horizion):
+    def __init__(self, parent, depth, horizon):
         self.childs = []
         self.parent = parent
         self.depth = depth
-        self.horizion = horizion
+        self.horizon = horizon
         self.board = Board()
         if self.parent != None:
             self.parent.childs.append(self)
