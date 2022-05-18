@@ -18,24 +18,28 @@ class MiniMax:
         self.playerOther = Player(Piece('Y'), 'Other')
         self.arbre = {}
         # self.lancementMinMax()
+
     def appel(self):
         self.root = Node(None, 0, 100)
         self.nodes = {'0': [self.root]}
         self.playerIA = Player(Piece('R'), 'IA')
         self.playerOther = Player(Piece('Y'), 'Other')
         self.arbre = {}
+
     def createTree(self):
-        fpred=False
+        fpred = False
         self.root.parent = None
         self.root.beta = 0
         self.root.alpha = 0
         self.root.value = None
         self.root.nodeDeRouteMinMax = None
         self.root.fin = False
-        for i in range(5):  # intialsation de dicctionaire 7 car il y a le root qui n'est pas des situations de case mais c'est le max qui regroupe tout les enfants donc il n'est pas la physiqument
+
+        for i in range(5):  # intialisation de dicctionaire 7 car il y a le root qui n'est pas des situations de case mais c'est le max qui regroupe tout les enfants donc il n'est pas la physiqument
             self.arbre[i] = []
         self.arbre[0].append(self.root)
         nodeValide = False
+
         for depth in range(4):
             for nodesInDepth in self.arbre[depth]:
                 if type(nodesInDepth) == Node:
@@ -53,7 +57,7 @@ class MiniMax:
                     self.arbre[depth+1].append(tempList)
                     tempList.clear
 
-        fpred=self.lancementMinMax()
+        fpred = self.lancementMinMax()
         return fpred
 
 # methode d'arret? pour diffrencier deux jetons libre a deux jetons que le adversaire a arrete
@@ -71,31 +75,23 @@ class MiniMax:
 
 # un autre moyenne de faire la jeu difficille est de fair un programe qui choisit entre les diffrents strategies des  joeur et adopter celui qui le convient le miileux
 
-
-    def lancementMinMax(self ):
-
+    def lancementMinMax(self):
         for etage in range(4):
-
             for ListsNodesEtagesActuels in self.arbre[3-etage]:
-
                 if type(ListsNodesEtagesActuels) == Node:
                     ListsNodesEtagesActuels = [ListsNodesEtagesActuels]
                 for NodePere in ListsNodesEtagesActuels:
                     min = 0
                     max = 0
-
                     for node in NodePere.childs:
-                       
-
-                        # niveua 4 car c'est 0 1 2 3 4
                         if(etage % 2 == 0):  # min because it's 1 3
-                           if(node.value < min):
+                            if(node.value < min):
                                 min = node.value
                         else:
                             if(node.value > max):
                                 max = node.value
                         for node in NodePere.childs:
-                            if(etage % 2 == 1):  # min because it's 1 3
+                            if(etage % 2 != 0):  # min because it's 1 3
                                 if(node.value == min):
                                     NodePere.nodeDeRouteMinMax = node
                                     break
@@ -103,14 +99,11 @@ class MiniMax:
                                 if(node.value == max):
                                     NodePere.nodeDeRouteMinMax = node
                                     break
-                    if(etage % 2 == 1):
+                    if(etage % 2 != 0):
                         NodePere.value = min
                     else:
                         NodePere.value = max
-        
-        print(self.root.value)
         return self.root.nodeDeRouteMinMax.horizion
-            
 
     def alphaBetaMinMax(self, etapeAfaire):
         finDePredication = False
@@ -222,13 +215,13 @@ class MiniMax:
             else:
                 currentNode.value = -99999999
         else:
-            if(mapJetons['Y'][3]>0):
-                currentNode.value=-1000
-            elif( mapJetons['R'][3]>0):
-                currentNode.value =(100)
-            elif(mapJetons['Y'][2]>0):
-                currentNode=-70
-            elif(mapJetons['R'][2]>0):
-                currentNode=60
+            if(mapJetons['Y'][3] > 0):
+                currentNode.value = -1000
+            elif(mapJetons['R'][3] > 0):
+                currentNode.value = (100)
+            elif(mapJetons['Y'][2] > 0):
+                currentNode.value = -70
+            elif(mapJetons['R'][2] > 0):
+                currentNode.value = 60
             else:
-                currentNode=0
+                currentNode.value = 0

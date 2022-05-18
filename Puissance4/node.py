@@ -11,11 +11,12 @@ class Node:
     horizion = 0
     board = None
     nodeDeRouteMinMax = None
-    fin=False
-    alpha=None
-    beta=None
+    fin = False
+    alpha = None
+    beta = None
+
     def __init__(self, parent, depth, horizion):
-        self.childs=[]
+        self.childs = []
         self.parent = parent
         self.depth = depth
         self.horizion = horizion

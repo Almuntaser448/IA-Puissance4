@@ -3,6 +3,7 @@ from board import *
 from miniMax import *
 import collections
 
+
 class Game:
     player1 = None
     player2 = None
@@ -14,7 +15,6 @@ class Game:
         self.player1 = Player(Piece('R'), name1)
         self.player2 = Player(Piece('Y'), name2)
         self.playerIA = Player(Piece('R'), "IA")
-
 
     def start(self):
         players = [self.player1, self.player2]
@@ -36,9 +36,6 @@ class Game:
             self.board.reset()
             self.start()
 
-
-
-
     def startIA(self):
         players = [self.playerIA, self.player2]
         cnt = 0
@@ -47,13 +44,14 @@ class Game:
         # Game in progress
         while not self.board.isFinished()[0]:
             IA = MiniMax()
-            caseAjouer=IA.createTree()
+            caseAjouer = IA.createTree()
             cnt += 1
             if(cnt % 2 == 1):
-                self.playerIA.playIA(self.board,caseAjouer)
+                self.board.showGrid()
+                self.playerIA.playIA(self.board, caseAjouer)
             else:
-                 self.board.showGrid()
-                 self.player2.play(self.board)
+                self.board.showGrid()
+                self.player2.play(self.board)
 
         # Game finished
         self.board.showGrid()
@@ -63,6 +61,7 @@ class Game:
         if restart.lower() == 'y':
             self.board.reset()
             self.startIA(IA)
+
     def showPlayers(self, players):
         print('')
         for i in players:

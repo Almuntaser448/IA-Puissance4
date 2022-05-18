@@ -27,5 +27,5 @@ class Player:
         posX = int(input('Enter postion: '))
         board.placePiece(posX, self)
 
-    def playIA(self,board ,posX):
+    def playIA(self, board, posX):
         board.placePiece(posX, self)
