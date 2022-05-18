@@ -60,54 +60,33 @@ class MiniMax:
         fpred = self.lancementMinMax()
         return fpred
 
-# methode d'arret? pour diffrencier deux jetons libre a deux jetons que le adversaire a arrete
-
-
-# pas arreter = les autres sont vide
-
-# il faut voir que si il y a par example 3 pour moi et 3 pour lui le programe peut avoir deux score diffrentes
-
-# trois trois pas le meme score que un seul trois
-# plus important deux deux que un seul trois
-# savoir si le node apartien a la noudes joues?
-# example : if list of the three contains le node qui vient d'etre jouer : score =?
-
-
-# un autre moyenne de faire la jeu difficille est de fair un programe qui choisit entre les diffrents strategies des  joeur et adopter celui qui le convient le miileux
-
     def lancementMinMax(self):
         for etage in range(4 - 1, 0 - 1, -1):
             for ListsNodesEtagesActuels in self.arbre[etage]:
                 if type(ListsNodesEtagesActuels) == Node:
                     ListsNodesEtagesActuels = [ListsNodesEtagesActuels]
                 for NodePere in ListsNodesEtagesActuels:
-                    min = 0
-                    max = 0
+
+                    min = 99999
+                    max = -99999
+                    resNode = None
 
                     for node in NodePere.childs:
                         if(etage % 2 == 0):  # max
                             if(node.value > max):
-                                print(node.value)
                                 max = node.value
+                                resNode = node
                         else:  # min
                             if(node.value < min):
-                                print(node.value)
                                 min = node.value
-
-                    for node in NodePere.childs:
-                        if(etage % 2 == 0):  # min because it's 1 3
-                            if(node.value == max):
-                                NodePere.nodeDeRouteMinMax = node
-                                break
-                        else:
-                            if(node.value == min):
-                                NodePere.nodeDeRouteMinMax = node
-                                break
+                                resNode = node
                     if(etage % 2 == 0):
                         NodePere.value = max
                     else:
                         NodePere.value = min
-        return self.root.nodeDeRouteMinMax.horizon
+
+        print(self.root.value)
+        return resNode.horizon
 
     def alphaBetaMinMax(self, etapeAfaire):
         finDePredication = False
@@ -197,19 +176,8 @@ class MiniMax:
 
         return nValide
 
-    # score difficult
-    # 1 alone=0
-    # oponent alone=-1
-    # 2 in a row=10
-    # opponent 2 in a row =-15
-    # 3 in a row =100
-    # opponent 3 in a row= -1000
-    # oponent 4 in a row= - 99999999
-    # 4 in a row = 999999999
-    # R==IA
-    # Y=Player
     def setNodeValue(self, currentNode):
-        # mapJetons: {'Y': {3: int(), 2:int()}, 'R': {3: int(), 2:int()}}
+        # exemple = mapJetons: {'Y': {3: int(), 2:int()}, 'R': {3: int(), 2:int()}}
         mapJetons = currentNode.board.isFinished()[1]
 
         if currentNode.board.winner != None:
@@ -219,13 +187,5 @@ class MiniMax:
             else:
                 currentNode.value = -99999999
         else:
-            if(mapJetons['Y'][3] > 0):
-                currentNode.value = -1000
-            elif(mapJetons['R'][3] > 0):
-                currentNode.value = (100)
-            elif(mapJetons['Y'][2] > 0):
-                currentNode.value = -70
-            elif(mapJetons['R'][2] > 0):
-                currentNode.value = 60
-            else:
-                currentNode.value = 0
+            currentNode.value = (mapJetons['R'][3]*20 + mapJetons['R'][2]*10) - (
+                mapJetons['R'][3]*25 + mapJetons['R'][2]*15)
