@@ -22,6 +22,8 @@ class MiniMax:
 
     def createTree(self):
         self.root.parent = None
+        self.root.beta = 0
+        self.root.alpha = 0
         self.root.value = None
         self.root.nodeDeRouteMinMax = None
         self.root.fin=False
@@ -73,8 +75,6 @@ class MiniMax:
                         if(etage % 2 == 1):  # min because it's 1 3
                             if(node.value < min):
                                 min = node.value
-                            if(node.fin==True):
-                                finDePredication=True
                         else:
                             if(node.value > max):
                                 max = node.value
@@ -103,7 +103,81 @@ class MiniMax:
         return finDePredication
 
 
+    def alphaBetaMinMax(self,etapeAfaire):
+        finDePredication=False
+        brouneEtage3=False
+        brouneEtage2=False
+        brouneEtage1=False
+        for nodeEtage1 in self.root.childs:
+              for nodeEtage2 in nodeEtage1.childs:
+                  for nodeEtage3 in nodeEtage2.childs:
+                      for nodeEtage4 in nodeEtage3.childs:
+                          if nodeEtage4.value<nodeEtage3.value:
+                             nodeEtage3.value=nodeEtage4.value
+                            #Min
+                          if(nodeEtage2.alpha>=nodeEtage3.value):
+                               brouneEtage3=True
+                               break
+                          if nodeEtage4.value<nodeEtage3.beta:
+                             nodeEtage3.beta=nodeEtage4.value
+                      #Max
+                      if (brouneEtage3):
+                          brouneEtage3=False
+                          continue
+                      if(nodeEtage3.value>=nodeEtage1.beta):
+                         brouneEtage2=True
+                         break
+                      if nodeEtage3.value>nodeEtage2.value:
+                           nodeEtage2.value=nodeEtage3.value
 
+                      if nodeEtage3.value>nodeEtage2.alpha:
+                         nodeEtage2.alpha=nodeEtage3.value   
+                   #Min
+                  if (brouneEtage2):
+                     brouneEtage2=False
+                     continue
+                  if (self.root.alpha>=nodeEtage1.value):
+                       brouneEtage1=True
+                       break
+                  if nodeEtage2.value<nodeEtage1.value:
+                        nodeEtage1.value=nodeEtage2.value
+                  if nodeEtage2.value<nodeEtage1.beta:
+                         nodeEtage1.beta=nodeEtage2.value
+              #Max
+              if (brouneEtage1):
+                  brouneEtage1=False
+                  continue
+              if nodeEtage1.value>self.root.value:
+                 self.root.value=nodeEtage1.value
+            
+              if self.root.alpha<nodeEtage1.value:
+                 self.root.alpha=nodeEtage1.value    
+        for nodeAsuivre1 in self.root.childs:
+            if self.root.value==nodeAsuivre1.value:
+                etapeAfaire.append (nodeAsuivre1)
+                if (nodeAsuivre1.fin==True):
+                    finDePredication=True
+                    break
+                for nodeAsuivre2 in nodeAsuivre1.childs:
+                    if nodeAsuivre2.value==nodeAsuivre1.value:
+                        etapeAfaire.append (nodeAsuivre2)
+                        for nodeAsuivre3 in nodeAsuivre2.childs:
+                            if nodeAsuivre3.value==nodeAsuivre2.value:
+                                etapeAfaire.append (nodeAsuivre3)
+                                if (nodeAsuivre3.fin==True):
+                                    finDePredication=True
+                                for nodeAsuivre4 in nodeAsuivre3.childs:
+                                    if(nodeAsuivre4.value==nodeAsuivre3.value):
+                                        etapeAfaire.append (nodeAsuivre4)
+                                        break
+                                
+                                break
+                        
+                        break
+                
+                break
+
+        return finDePredication
 
     def updateGrid(self, currentNode, depth, x):
         nValide=False
@@ -133,7 +207,7 @@ class MiniMax:
             else:
                 currentNode.value = -99999999
         else:
-            if (methode de 3):
+            if (methode de  3):
                 if self.playerIA:
                     currentNode.value =100
                 else:
