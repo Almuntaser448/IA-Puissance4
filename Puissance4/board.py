@@ -11,7 +11,7 @@ class Board:
         self.winner = None
 
     def isFinished(self):
-        mapJetons = {'J': {3: 0, 2: 0}, 'R': {3: 0, 2: 0}}
+        mapJetons = {'Y': {3: 0, 2: 0}, 'R': {3: 0, 2: 0}}
 
         # Vertical
         lastPiece = None
@@ -23,7 +23,8 @@ class Board:
                 if self.grid[x][y] != lastPiece:
                     lastPiece = self.grid[x][y]
                     if cnt >= 2:
-                        mapJetons[lastPiece][cnt] += 1
+                        if lastPiece != 'O':
+                            mapJetons[lastPiece][cnt] += 1
                     cnt = 0
                 if lastPiece != 'O':
                     cnt += 1
@@ -41,7 +42,8 @@ class Board:
                 if self.grid[x][y] != lastPiece:
                     lastPiece = self.grid[x][y]
                     if cnt >= 2:
-                        mapJetons[lastPiece][cnt] += 1
+                        if lastPiece != 'O':
+                            mapJetons[lastPiece][cnt] += 1
                     cnt = 0
                 if lastPiece != 'O':
                     cnt += 1
@@ -59,7 +61,8 @@ class Board:
                 if self.grid[pos[0]][pos[1]] != lastPiece:
                     lastPiece = self.grid[pos[0]][pos[1]]
                     if cnt >= 2:
-                        mapJetons[lastPiece][cnt] += 1
+                        if lastPiece != 'O':
+                            mapJetons[lastPiece][cnt] += 1
                     cnt = 0
                 if lastPiece != 'O':
                     cnt += 1
@@ -79,7 +82,8 @@ class Board:
                 if self.grid[pos[0]][pos[1]] != lastPiece:
                     lastPiece = self.grid[pos[0]][pos[1]]
                     if cnt >= 2:
-                        mapJetons[lastPiece][cnt] += 1
+                        if lastPiece != 'O':
+                            mapJetons[lastPiece][cnt] += 1
                     cnt = 0
                 if lastPiece != 'O':
                     cnt += 1

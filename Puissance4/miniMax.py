@@ -33,6 +33,8 @@ class MiniMax:
         nodeValide = False
         for depth in range(4):
             for nodesInDepth in self.arbre[depth]:
+                if type(nodesInDepth) == Node:
+                    nodesInDepth = [nodesInDepth]
                 for nodeParent in nodesInDepth:
                     tempList = []
                     for x in range(7):
@@ -61,6 +63,7 @@ class MiniMax:
 
 # un autre moyenne de faire la jeu difficille est de fair un programe qui choisit entre les diffrents strategies des  joeur et adopter celui qui le convient le miileux
 
+
     def lancementMinMax(self, etapeAfaire):
         finDePredication = False
         for etage in range(4):
@@ -81,18 +84,18 @@ class MiniMax:
                             if(node.fin == True):
                                 finDePredication = True
                         for node in NodePere.childs:
-                             if(etage % 2 == 1):  # min because it's 1 3
-                                    if(node.value == min):
-                                        NodePere.nodeDeRouteMinMax = node
-                                        break
-                             else:
+                            if(etage % 2 == 1):  # min because it's 1 3
+                                if(node.value == min):
+                                    NodePere.nodeDeRouteMinMax = node
+                                    break
+                            else:
                                 if(node.value == max):
-                                     NodePere.nodeDeRouteMinMax = node
-                                     break
+                                    NodePere.nodeDeRouteMinMax = node
+                                    break
                     if(etage % 2 == 1):
-                            NodePere.value = min
+                        NodePere.value = min
                     else:
-                          NodePere.value = max
+                        NodePere.value = max
         self.arbre.clear()
         etapeAfaire.append(self.root.nodeDeRouteMinMax)
         etapeAfaire.append(self.root.nodeDeRouteMinMax.nodeDeRouteMinMax)
@@ -109,49 +112,49 @@ class MiniMax:
         brouneEtage2 = False
         brouneEtage1 = False
         for nodeEtage1 in self.root.childs:
-              for nodeEtage2 in nodeEtage1.childs:
-                  for nodeEtage3 in nodeEtage2.childs:
-                      for nodeEtage4 in nodeEtage3.childs:
-                          if nodeEtage4.value < nodeEtage3.value:
-                             nodeEtage3.value = nodeEtage4.value
-                            # Min
-                          if(nodeEtage2.alpha >= nodeEtage3.value):
-                               brouneEtage3 = True
-                               break
-                          if nodeEtage4.value < nodeEtage3.beta:
-                             nodeEtage3.beta = nodeEtage4.value
-                      # Max
-                      if (brouneEtage3):
-                          brouneEtage3 = False
-                          continue
-                      if(nodeEtage3.value >= nodeEtage1.beta):
-                         brouneEtage2 = True
-                         break
-                      if nodeEtage3.value > nodeEtage2.value:
-                           nodeEtage2.value = nodeEtage3.value
+            for nodeEtage2 in nodeEtage1.childs:
+                for nodeEtage3 in nodeEtage2.childs:
+                    for nodeEtage4 in nodeEtage3.childs:
+                        if nodeEtage4.value < nodeEtage3.value:
+                            nodeEtage3.value = nodeEtage4.value
+                        # Min
+                        if(nodeEtage2.alpha >= nodeEtage3.value):
+                            brouneEtage3 = True
+                            break
+                        if nodeEtage4.value < nodeEtage3.beta:
+                            nodeEtage3.beta = nodeEtage4.value
+                    # Max
+                    if (brouneEtage3):
+                        brouneEtage3 = False
+                        continue
+                    if(nodeEtage3.value >= nodeEtage1.beta):
+                        brouneEtage2 = True
+                        break
+                    if nodeEtage3.value > nodeEtage2.value:
+                        nodeEtage2.value = nodeEtage3.value
 
-                      if nodeEtage3.value > nodeEtage2.alpha:
-                         nodeEtage2.alpha = nodeEtage3.value
-                   # Min
-                  if (brouneEtage2):
-                     brouneEtage2 = False
-                     continue
-                  if (self.root.alpha >= nodeEtage1.value):
-                       brouneEtage1 = True
-                       break
-                  if nodeEtage2.value < nodeEtage1.value:
-                        nodeEtage1.value = nodeEtage2.value
-                  if nodeEtage2.value < nodeEtage1.beta:
-                         nodeEtage1.beta = nodeEtage2.value
-              # Max
-              if (brouneEtage1):
-                  brouneEtage1 = False
-                  continue
-              if nodeEtage1.value > self.root.value:
-                 self.root.value = nodeEtage1.value
+                    if nodeEtage3.value > nodeEtage2.alpha:
+                        nodeEtage2.alpha = nodeEtage3.value
+                  # Min
+                if (brouneEtage2):
+                    brouneEtage2 = False
+                    continue
+                if (self.root.alpha >= nodeEtage1.value):
+                    brouneEtage1 = True
+                    break
+                if nodeEtage2.value < nodeEtage1.value:
+                    nodeEtage1.value = nodeEtage2.value
+                if nodeEtage2.value < nodeEtage1.beta:
+                    nodeEtage1.beta = nodeEtage2.value
+            # Max
+            if (brouneEtage1):
+                brouneEtage1 = False
+                continue
+            if nodeEtage1.value > self.root.value:
+                self.root.value = nodeEtage1.value
 
-              if self.root.alpha < nodeEtage1.value:
-                 self.root.alpha = nodeEtage1.value
+            if self.root.alpha < nodeEtage1.value:
+                self.root.alpha = nodeEtage1.value
         for nodeAsuivre1 in self.root.childs:
             if self.root.value == nodeAsuivre1.value:
                 etapeAfaire.append(nodeAsuivre1)
@@ -188,6 +191,8 @@ class MiniMax:
         else:
             actualPlayer = 1
         nValide = currentNode.board.placePiece(x, players[actualPlayer])
+
+        currentNode.board.showGrid()
         return nValide
 
     # score difficult
@@ -199,12 +204,15 @@ class MiniMax:
     # opponent 3 in a row= -1000
     # oponent 4 in a row= - 99999999
     # 4 in a row = 999999999
-    #R==IA
-    #Y=Player
+    # R==IA
+    # Y=Player
     def setNodeValue(self, currentNode):
         # mapJetons: {'Y': {3: int(), 2:int()}, 'R': {3: int(), 2:int()}}
         mapJetons = currentNode.board.isFinished()[1]
-        mapJetons['Y'][3]
+        print("##############")
+        print(mapJetons)
+        print("##############")
+
         if currentNode.board.winner != None:
             if self.playerIA.piece.color == currentNode.board.winner:
                 currentNode.value = 999999999
@@ -212,5 +220,5 @@ class MiniMax:
             else:
                 currentNode.value = -99999999
         else:
-             currentNode.value =mapJetons['R'][3]*100+mapJetons['R'][2]*60+mapJetons['Y'][3]*-1000+mapJetons['Y'][2]*-70
-
+            currentNode.value = mapJetons['R'][3]*100+mapJetons['R'][2] * \
+                60+mapJetons['Y'][3]*-1000+mapJetons['Y'][2]*-70
