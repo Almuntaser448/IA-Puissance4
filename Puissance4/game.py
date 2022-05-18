@@ -13,7 +13,7 @@ class Game:
         name2 = input('Enter name of player 2: ')
         self.player1 = Player(Piece('R'), name1)
         self.player2 = Player(Piece('Y'), name2)
-        self.playerIA = Player(Piece('I'), "IA")
+        self.playerIA = Player(Piece('R'), "IA")
 
 
     def start(self):
@@ -22,7 +22,7 @@ class Game:
         self.showPlayers(players)
 
         # Game in progress
-        while not self.board.isFinished():
+        while not self.board.isFinished()[0]:
             self.board.showGrid()
             cnt += 1
             players[int(cnt % 2 == 0)].play(self.board)
@@ -47,7 +47,7 @@ class Game:
         etapesMinMaxASuivre = collections.deque()
         predicerToutLaJeu=False
         # Game in progress
-        while not self.board.isFinished():
+        while not self.board.isFinished()[0]:
             if  (bool(etapesMinMaxASuivre)):
                 if not(etapesMinMaxASuivre.popleft().board==self.board):
                     etapesMinMaxASuivre.clear()

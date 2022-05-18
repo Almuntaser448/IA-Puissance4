@@ -199,10 +199,12 @@ class MiniMax:
     # opponent 3 in a row= -1000
     # oponent 4 in a row= - 99999999
     # 4 in a row = 999999999
+    #R==IA
+    #Y=Player
     def setNodeValue(self, currentNode):
         # mapJetons: {'Y': {3: int(), 2:int()}, 'R': {3: int(), 2:int()}}
         mapJetons = currentNode.board.isFinished()[1]
-
+        mapJetons['Y'][3]
         if currentNode.board.winner != None:
             if self.playerIA.piece.color == currentNode.board.winner:
                 currentNode.value = 999999999
@@ -210,15 +212,5 @@ class MiniMax:
             else:
                 currentNode.value = -99999999
         else:
-            if (methode de  3):
-                if self.playerIA:
-                    currentNode.value = 100
-                else:
-                    currentNode.value = -1000
-            elif (methode de 2):
-                if self.playerIA:
-                    currentNode.value = 60
-                else:
-                    currentNode.value = -70
-           else:
-               currentNode.value =0
+             currentNode.value =mapJetons['R'][3]*100+mapJetons['R'][2]*60+mapJetons['Y'][3]*-1000+mapJetons['Y'][2]*-70
+
