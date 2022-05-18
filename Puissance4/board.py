@@ -21,10 +21,10 @@ class Board:
             cnt = 0
             for x in range(len(self.grid)):
                 if self.grid[x][y] != lastPiece:
-                    lastPiece = self.grid[x][y]
                     if cnt >= 2:
                         if lastPiece != 'O':
                             mapJetons[lastPiece][cnt] += 1
+                    lastPiece = self.grid[x][y]
                     cnt = 0
                 if lastPiece != 'O':
                     cnt += 1
@@ -40,11 +40,12 @@ class Board:
             cnt = 0
             for y in range(len(self.grid[x])):
                 if self.grid[x][y] != lastPiece:
-                    lastPiece = self.grid[x][y]
                     if cnt >= 2:
                         if lastPiece != 'O':
                             mapJetons[lastPiece][cnt] += 1
+                    lastPiece = self.grid[x][y]
                     cnt = 0
+
                 if lastPiece != 'O':
                     cnt += 1
                 if cnt >= 4:
@@ -63,7 +64,9 @@ class Board:
                     if cnt >= 2:
                         if lastPiece != 'O':
                             mapJetons[lastPiece][cnt] += 1
+                    lastPiece = self.grid[x][y]
                     cnt = 0
+
                 if lastPiece != 'O':
                     cnt += 1
                 if cnt >= 4:
@@ -84,7 +87,9 @@ class Board:
                     if cnt >= 2:
                         if lastPiece != 'O':
                             mapJetons[lastPiece][cnt] += 1
+                    lastPiece = self.grid[x][y]
                     cnt = 0
+
                 if lastPiece != 'O':
                     cnt += 1
                 if cnt >= 4:
