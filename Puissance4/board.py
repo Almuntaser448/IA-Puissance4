@@ -108,18 +108,39 @@ class Board:
                     posY = y
                     break
             except:
-                print('Case non valide')
-                Player.play(self)
+                if not (Player.name=="Other"):
+                    if not  (Player.name=="IAEntrainment"):
+                        self.showGrid()
+                        print('Case non valide! Veuillez choisir une autre case')
+                        return Player.play(self)
+                    else:
+                      return False
+                else:
+                    return False
         if (fin == True):
-            print('Case non valide')
-            Player.play(self)
+                if not (Player.name=="Other"):
+                    if not  (Player.name=="IAEntrainment"):
+                        self.showGrid()
+                        print('Case non valide! Veuillez choisir une autre case')
+                        return Player.play(self)
+                    else:
+                        return False
+                else:
+                    return False
+
         if posY < 6:
             if self.grid[posY][posX] == 'O':
                 self.grid[posY][posX] = Player.piece.color
             else:
-                self.showGrid()
-                print('Case non valide! Veuillez choisir une autre case')
-                return Player.play(self)
+                if not (Player.name=="Other"):
+                    if not  (Player.name=="IAEntrainment"):
+                        self.showGrid()
+                        print('Case non valide! Veuillez choisir une autre case')
+                        return Player.play(self)
+                    else:
+                     return False
+                else:
+                    return False
             return True
         else:
             return False

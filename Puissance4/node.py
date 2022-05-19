@@ -1,3 +1,4 @@
+from types import NoneType
 from numpy import False_
 from board import Board
 from copy import *
@@ -14,8 +15,10 @@ class Node:
     fin = False
     alpha = None
     beta = None
+    valid=None
 
     def __init__(self, parent, depth, horizon):
+        self.valid=False
         self.childs = []
         self.parent = parent
         self.depth = depth
