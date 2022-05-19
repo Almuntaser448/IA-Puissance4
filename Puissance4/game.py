@@ -16,7 +16,9 @@ class Game:
 
     def start(self):
         """
-        to Complete.
+        method of starting a game with two human players.
+
+        Initialize the names of the players.
         """
         name1 = input('Enter name of player 1: ')
         name2 = input('Enter name of player 2: ')
@@ -43,7 +45,9 @@ class Game:
 
     def startIA(self):
         """
-        to Complete.
+        method of starting a game with two players, one human and one IA.
+
+        Initialize the names of the player and the difficulty.
         """
         name = input('Enter name of player: ')
         difficulty = input('Enter difficulty: (1-Easy, 2-Medium, 3-Hard)')
@@ -83,8 +87,20 @@ class Game:
 
     def startIAAlphaBeta(self):
         """
-        to Complete.
+        method of starting a game with two players, one human and one IA.
+
+        AlphaBeta version.
+
+        Initialize the names of the player and the difficulty.
         """
+        name = input('Enter name of player: ')
+        difficulty = input('Enter difficulty: (1-Easy, 2-Medium, 3-Hard)')
+        try:
+            difficulty = int(difficulty)
+        except:
+            print('Valeur "{}" non reconnue'.format(difficulty))
+            return self.startIA()
+        self.player2.name = name
         players = [self.playerIA, self.player2]
         cnt = 0
         self.showPlayers(players)
@@ -112,8 +128,20 @@ class Game:
 
     def startMCT(self):
         """
-        to Complete.
+        method of starting a game with two players, one human and one IA.
+
+        MCTS (Monte Carlo tree search) version.
+
+        Initialize the names of the player and the difficulty.
         """
+        name = input('Enter name of player: ')
+        difficulty = input('Enter difficulty: (1-Easy, 2-Medium, 3-Hard)')
+        try:
+            difficulty = int(difficulty)
+        except:
+            print('Valeur "{}" non reconnue'.format(difficulty))
+            return self.startIA()
+        self.player2.name = name
         players = [self.playerIA, self.player2]
         cnt = 0
         self.showPlayers(players)
@@ -141,7 +169,7 @@ class Game:
 
     def showPlayers(self, players):
         """
-        to Complete.
+        Allows the display of players and their scores
         """
         print('')
         for i in players:
@@ -149,7 +177,7 @@ class Game:
 
     def showWinner(self, players):
         """
-        to Complete.
+        Allows the display of the winner
         """
         if self.board.winner != None:
             for player in players:

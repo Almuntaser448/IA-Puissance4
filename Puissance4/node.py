@@ -31,12 +31,12 @@ class Node:
 
     def addChild(self, node):
         """
-        to Complete.
+        Method to add children to the node.
         """
         self.childs.append(node)
 
     def getChilds(self):
         """
-        to Complete.
+        Method to get the childrens of the node.
         """
         return self.childs

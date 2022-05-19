@@ -18,7 +18,7 @@ class Player:
 
     def getRandomName(self):
         """
-        to Complete.
+        Method to generate a pseudo random.
         """
         letters = string.ascii_lowercase
         result_str = ''.join(random.choice(letters) for i in range(3))
@@ -26,7 +26,7 @@ class Player:
 
     def play(self, board):
         """
-        to Complete.
+        Method allowing a human player to play a piece on the board.
         """
         print('\nAu tour de ', self.name)
         posX = int(input('Enter postion: '))
@@ -34,6 +34,6 @@ class Player:
 
     def playIA(self, board, posX):
         """
-        to Complete.
+        Method for the ia to play a piece on the board.
         """
         board.placePiece(posX, self)
