@@ -16,8 +16,9 @@ class Node:
     alpha = None
     beta = None
     valid=None
-
+    nvisit=None
     def __init__(self, parent, depth, horizon):
+        self.nvisit=0
         self.valid=False
         self.childs = []
         self.parent = parent

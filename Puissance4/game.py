@@ -2,7 +2,7 @@ from player import *
 from board import *
 from miniMax import *
 import collections
-
+from MCT import *
 
 class Game:
     player1 = None
@@ -88,6 +88,31 @@ class Game:
             self.board.reset()
             self.startIA(IA)
 
+    def startMCT(self):
+        players = [self.playerIA, self.player2]
+        cnt = 0
+        self.showPlayers(players)
+
+        # Game in progress
+        while not self.board.isFinished()[0]:
+            IA = MCT()
+            IA.root.board=deepcopy(self.board)
+            caseAjouer=IA.createTree()
+            cnt += 1
+            if(cnt % 2 == 1):
+                self.playerIA.playIA(self.board,caseAjouer)
+            else:
+                 self.board.showGrid()
+                 self.player2.play(self.board)
+
+        # Game finished
+        self.board.showGrid()
+        self.showWinner(players)
+
+        restart = input('Restart? yes:Y no:Other ')
+        if restart.lower() == 'y':
+            self.board.reset()
+            self.startIA(IA)
 
     def showPlayers(self, players):
         print('')
