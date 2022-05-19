@@ -1,7 +1,5 @@
-
-
 class Piece:
-    color = None
+    color = None  # str
 
     def __init__(self, color: str):
         self.color = color

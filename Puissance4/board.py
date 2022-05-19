@@ -1,10 +1,9 @@
-from numpy import place
 from player import *
 
 
 class Board:
-    grid = None
-    winner = None
+    grid = None  # list
+    winner = None  # str
 
     def __init__(self):
         self.grid = [['O']*7 for _ in range(6)]
@@ -156,6 +155,9 @@ class Board:
             return False
 
     def showGrid(self):
+        """
+        this method allows the display of our board.
+        """
         print('')
         for i in range(6-1, 0-1, -1):
             print(self.grid[i])
@@ -165,4 +167,7 @@ class Board:
         print('\n'+xValues)
 
     def reset(self):
+        """
+        this method restarts the constructor which has the effect of resetting the variables of the class.
+        """
         self.__init__()

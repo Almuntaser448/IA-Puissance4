@@ -1,5 +1,3 @@
-from numpy import True_
-from board import Board
 from node import *
 from player import *
 
@@ -17,16 +15,11 @@ class MiniMax:
         self.playerIA = Player(Piece('R'), 'IAEntrainment')
         self.playerOther = Player(Piece('Y'), 'Other')
         self.arbre = {}
-        # self.lancementMinMax()
-
-    def appel(self):
-        self.root = Node(None, 0, 100)
-        self.nodes = {'0': [self.root]}
-        self.playerIA = Player(Piece('R'), 'IAEntrainment')
-        self.playerOther = Player(Piece('Y'), 'Other')
-        self.arbre = {}
 
     def createTree(self, avecAlphaBeta, dificulte):
+        """
+        to Complete.
+        """
         self.root.parent = None
         self.root.beta = 0
         self.root.alpha = 0
@@ -100,6 +93,9 @@ class MiniMax:
         return retour
 
     def lancementMinMax(self):
+        """
+        to Complete.
+        """
         for etage in range(4 - 1, 0 - 1, -1):
             for ListsNodesEtagesActuels in self.arbre[etage]:
                 if type(ListsNodesEtagesActuels) == Node:
@@ -132,6 +128,9 @@ class MiniMax:
         return resNode.horizon
 
     def alphaBetaMinMax(self, dificulte):
+        """
+        to Complete.
+        """
         brouneEtage3 = False
         brouneEtage2 = False
         brouneEtage1 = False
@@ -242,6 +241,9 @@ class MiniMax:
         return finDePredication
 
     def updateGrid(self, currentNode, depth, x):
+        """
+        to Complete.
+        """
         nValide = False
         players = [self.playerIA, self.playerOther]
         actualPlayer = int()
@@ -253,6 +255,9 @@ class MiniMax:
         return nValide
 
     def setNodeValue(self, currentNode, dificulte):
+        """
+        to Complete.
+        """
         mapJetons = currentNode.board.isFinished()[1]
         if dificulte == 3:  # difficile
             # exemple = mapJetons: {'Y': {3: int(), 2:int()}, 'R': {3: int(), 2:int()}}

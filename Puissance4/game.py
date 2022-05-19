@@ -1,8 +1,6 @@
-from numpy import diff
 from player import *
 from board import *
 from miniMax import *
-import collections
 from MCT import *
 
 
@@ -17,6 +15,9 @@ class Game:
         self.playerIA = Player(Piece('R'), "IA")
 
     def start(self):
+        """
+        to Complete.
+        """
         name1 = input('Enter name of player 1: ')
         name2 = input('Enter name of player 2: ')
         self.player1.name = name1
@@ -41,6 +42,9 @@ class Game:
             self.start()
 
     def startIA(self):
+        """
+        to Complete.
+        """
         name = input('Enter name of player: ')
         difficulty = input('Enter difficulty: (1-Easy, 2-Medium, 3-Hard)')
         try:
@@ -59,13 +63,14 @@ class Game:
             IA = MiniMax()
             IA.root.board = deepcopy(self.board)
             caseAjouer = IA.createTree(False, difficulty)
-            cnt += 1
-            if(cnt % 2 == 1):
+
+            if(cnt % 2 == 0):
                 self.board.showGrid()
                 self.playerIA.playIA(self.board, caseAjouer)
             else:
                 self.board.showGrid()
                 self.player2.play(self.board)
+            cnt += 1
 
         # Game finished
         self.board.showGrid()
@@ -77,6 +82,9 @@ class Game:
             self.startIA()
 
     def startIAAlphaBeta(self):
+        """
+        to Complete.
+        """
         players = [self.playerIA, self.player2]
         cnt = 0
         self.showPlayers(players)
@@ -103,6 +111,9 @@ class Game:
             self.startIA(IA)
 
     def startMCT(self):
+        """
+        to Complete.
+        """
         players = [self.playerIA, self.player2]
         cnt = 0
         self.showPlayers(players)
@@ -129,11 +140,17 @@ class Game:
             self.startIA(IA)
 
     def showPlayers(self, players):
+        """
+        to Complete.
+        """
         print('')
         for i in players:
             print(i.name, '- Score:', i.score)
 
     def showWinner(self, players):
+        """
+        to Complete.
+        """
         if self.board.winner != None:
             for player in players:
                 if player.piece.color == self.board.winner:
