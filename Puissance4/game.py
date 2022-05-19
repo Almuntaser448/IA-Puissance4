@@ -4,19 +4,22 @@ from miniMax import *
 import collections
 from MCT import *
 
+
 class Game:
     player1 = None
     player2 = None
     board = Board()
 
     def __init__(self):
-        name1 = input('Enter name of player 1: ')
-        name2 = input('Enter name of player 2: ')
-        self.player1 = Player(Piece('R'), name1)
-        self.player2 = Player(Piece('Y'), name2)
+        self.player1 = Player(Piece('R'), '')
+        self.player2 = Player(Piece('Y'), '')
         self.playerIA = Player(Piece('R'), "IA")
 
     def start(self):
+        name1 = input('Enter name of player 1: ')
+        name2 = input('Enter name of player 2: ')
+        self.player1.name = name1
+        self.player2.name = name2
         players = [self.player1, self.player2]
         cnt = 0
         self.showPlayers(players)
@@ -37,6 +40,9 @@ class Game:
             self.start()
 
     def startIA(self):
+        name = input('Enter name of player: ')
+        self.player2.name = name
+
         players = [self.playerIA, self.player2]
         cnt = 0
         self.showPlayers(players)
@@ -44,8 +50,8 @@ class Game:
         # Game in progress
         while not self.board.isFinished()[0]:
             IA = MiniMax()
-            IA.root.board=deepcopy(self.board)
-            caseAjouer = IA.createTree(False,2)
+            IA.root.board = deepcopy(self.board)
+            caseAjouer = IA.createTree(False, 2)
             cnt += 1
             if(cnt % 2 == 1):
                 self.board.showGrid()
@@ -61,7 +67,8 @@ class Game:
         restart = input('Restart? yes:Y no:Other ')
         if restart.lower() == 'y':
             self.board.reset()
-            self.startIA(IA)
+            self.startIA()
+
     def startIAAlphaBeta(self):
         players = [self.playerIA, self.player2]
         cnt = 0
@@ -70,14 +77,14 @@ class Game:
         # Game in progress
         while not self.board.isFinished()[0]:
             IA = MiniMax()
-            IA.root.board=deepcopy(self.board)
-            caseAjouer=IA.createTree(True)
+            IA.root.board = deepcopy(self.board)
+            caseAjouer = IA.createTree(True)
             cnt += 1
             if(cnt % 2 == 1):
-                self.playerIA.playIA(self.board,caseAjouer)
+                self.playerIA.playIA(self.board, caseAjouer)
             else:
-                 self.board.showGrid()
-                 self.player2.play(self.board)
+                self.board.showGrid()
+                self.player2.play(self.board)
 
         # Game finished
         self.board.showGrid()
@@ -96,14 +103,14 @@ class Game:
         # Game in progress
         while not self.board.isFinished()[0]:
             IA = MCT()
-            IA.root.board=deepcopy(self.board)
-            caseAjouer=IA.createTree()
+            IA.root.board = deepcopy(self.board)
+            caseAjouer = IA.createTree()
             cnt += 1
             if(cnt % 2 == 1):
-                self.playerIA.playIA(self.board,caseAjouer)
+                self.playerIA.playIA(self.board, caseAjouer)
             else:
-                 self.board.showGrid()
-                 self.player2.play(self.board)
+                self.board.showGrid()
+                self.player2.play(self.board)
 
         # Game finished
         self.board.showGrid()
