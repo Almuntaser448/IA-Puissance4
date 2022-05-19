@@ -18,7 +18,7 @@ class MiniMax:
 
     def createTree(self, avecAlphaBeta, dificulte):
         """
-        to Complete.
+        Method allowing the creation of the tree by assimilating a game state to each node.
         """
         self.root.parent = None
         self.root.beta = 0
@@ -94,7 +94,9 @@ class MiniMax:
 
     def lancementMinMax(self):
         """
-        to Complete.
+        Method to launch minmax.
+
+        Return the position to be played by the AI.
         """
         for etage in range(4 - 1, 0 - 1, -1):
             for ListsNodesEtagesActuels in self.arbre[etage]:
@@ -129,7 +131,11 @@ class MiniMax:
 
     def alphaBetaMinMax(self, dificulte):
         """
-        to Complete.
+        Methode permettant le lancement de minmax.
+
+        AlphaBeta version.
+
+        Retourne la position à jouer par l'IA
         """
         brouneEtage3 = False
         brouneEtage2 = False
@@ -242,7 +248,7 @@ class MiniMax:
 
     def updateGrid(self, currentNode, depth, x):
         """
-        to Complete.
+        Method to add a piece in the board of a child node according to the one of the father.
         """
         nValide = False
         players = [self.playerIA, self.playerOther]
@@ -256,7 +262,7 @@ class MiniMax:
 
     def setNodeValue(self, currentNode, dificulte):
         """
-        to Complete.
+        Methode permettant l'attribution de score à chaque noeud.
         """
         mapJetons = currentNode.board.isFinished()[1]
         if dificulte == 3:  # difficile
