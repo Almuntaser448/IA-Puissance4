@@ -1,3 +1,4 @@
+from numpy import diff
 from player import *
 from board import *
 from miniMax import *
@@ -41,6 +42,12 @@ class Game:
 
     def startIA(self):
         name = input('Enter name of player: ')
+        difficulty = input('Enter difficulty: (1-Easy, 2-Medium, 3-Hard)')
+        try:
+            difficulty = int(difficulty)
+        except:
+            print('Valeur "{}" non reconnue'.format(difficulty))
+            return self.startIA()
         self.player2.name = name
 
         players = [self.playerIA, self.player2]
@@ -51,7 +58,7 @@ class Game:
         while not self.board.isFinished()[0]:
             IA = MiniMax()
             IA.root.board = deepcopy(self.board)
-            caseAjouer = IA.createTree(False, 2)
+            caseAjouer = IA.createTree(False, difficulty)
             cnt += 1
             if(cnt % 2 == 1):
                 self.board.showGrid()

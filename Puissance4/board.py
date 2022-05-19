@@ -11,6 +11,13 @@ class Board:
         self.winner = None
 
     def isFinished(self):
+        """
+        returns a list of 2 values.
+
+        The first one is a boolean: True if the game is over and False otherwise.
+
+        The second one is a dictionary containing values needed to calculate the score.
+        """
         mapJetons = {'Y': {3: 0, 2: 0}, 'R': {3: 0, 2: 0}}
 
         # Vertical
@@ -28,7 +35,7 @@ class Board:
                     cnt = 0
                 if lastPiece != 'O':
                     cnt += 1
-                if cnt >= 4:  # jeton l'un apres l'autre
+                if cnt >= 4:
                     self.winner = lastPiece
                     return (True, mapJetons)
 
@@ -45,7 +52,6 @@ class Board:
                             mapJetons[lastPiece][cnt] += 1
                     lastPiece = self.grid[x][y]
                     cnt = 0
-
                 if lastPiece != 'O':
                     cnt += 1
                 if cnt >= 4:
@@ -66,7 +72,6 @@ class Board:
                             mapJetons[lastPiece][cnt] += 1
                     lastPiece = self.grid[x][y]
                     cnt = 0
-
                 if lastPiece != 'O':
                     cnt += 1
                 if cnt >= 4:
@@ -99,6 +104,11 @@ class Board:
         return (False, mapJetons)
 
     def placePiece(self, posX: int, Player):
+        """
+        This method allows to add a piece to our board if the indicated location is valid.
+
+        Returns a boolean: True if the method is correctly executed or false otherwise.
+        """
         posY = 6
         fin = True
         for y in range(len(self.grid)):
@@ -108,18 +118,8 @@ class Board:
                     posY = y
                     break
             except:
-                if not (Player.name=="Other"):
-                    if not  (Player.name=="IAEntrainment"):
-                        self.showGrid()
-                        print('Case non valide! Veuillez choisir une autre case')
-                        return Player.play(self)
-                    else:
-                      return False
-                else:
-                    return False
-        if (fin == True):
-                if not (Player.name=="Other"):
-                    if not  (Player.name=="IAEntrainment"):
+                if not (Player.name == "Other"):
+                    if not (Player.name == "IAEntrainment"):
                         self.showGrid()
                         print('Case non valide! Veuillez choisir une autre case')
                         return Player.play(self)
@@ -127,18 +127,28 @@ class Board:
                         return False
                 else:
                     return False
+        if (fin == True):
+            if not (Player.name == "Other"):
+                if not (Player.name == "IAEntrainment"):
+                    self.showGrid()
+                    print('Case non valide! Veuillez choisir une autre case')
+                    return Player.play(self)
+                else:
+                    return False
+            else:
+                return False
 
         if posY < 6:
             if self.grid[posY][posX] == 'O':
                 self.grid[posY][posX] = Player.piece.color
             else:
-                if not (Player.name=="Other"):
-                    if not  (Player.name=="IAEntrainment"):
+                if not (Player.name == "Other"):
+                    if not (Player.name == "IAEntrainment"):
                         self.showGrid()
                         print('Case non valide! Veuillez choisir une autre case')
                         return Player.play(self)
                     else:
-                     return False
+                        return False
                 else:
                     return False
             return True
